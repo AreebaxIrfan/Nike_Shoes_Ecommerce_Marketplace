@@ -166,7 +166,7 @@ const ProductPageClient = ({ initialProducts }: { initialProducts: Product[] }) 
         <div className={`w-full ${isFilterVisible ? "lg:w-3/4 lg:pl-8" : "lg:w-full"}`}>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {currentProducts.map((product) => (
-              <div key={product.slugt} className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden">
+              <div key={product.slug} className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden">
                 <div className="relative h-64">
                   <Image
                     src={product.image.url || "/placeholder.svg"}
@@ -179,7 +179,7 @@ const ProductPageClient = ({ initialProducts }: { initialProducts: Product[] }) 
                   <div>
                     <p className="text-red-600 font-semibold mb-1">{product.status}</p>
                     <Link
-                      href={`/products/${product.slug.current}`}
+                      href={`/products/${product.slug}`}
                       className="text-lg font-bold text-black hover:underline mb-2 block"
                     >
                       {product.productName}
