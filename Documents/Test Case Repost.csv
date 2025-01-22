@@ -1,0 +1,10 @@
+TestCaseID,TestCaseDescription,TestSteps,ExpectedResult,ActualResult,Status,Severity,Remarks
+TC001,Validate Homepage Navigation,Navigate to homepage > Check navigation menu,Menu links work and lead to proper pages,Works correctly,Passed,High,As expected
+TC002,Validate Search Functionality,Enter search query > Check results,Relevant search results,Relevant,Passed,High,As expected
+TC006,Validate Shopping Cart,Add items to cart > Check cart details,Cart displays correct details,Details correct,Passed,High,As expected
+TC007,Test Checkout Process,Proceed to checkout > Enter details,Successful order placement,Order placed successfully,Passed,High,As expected
+TC010,Test Product Sorting,Sort products by price/rating,Products sorted correctly,Sorted correctly,Passed,Medium,As expected
+TC011,Validate Product Details,Click on a product > Check product details page,"Product details (image, description, price) displayed",Product details displayed correctly,Passed,High,As expected
+TC012,Validate Product Listing,Browse product listing > Check for correct display,All products listed with accurate details,All products listed correctly,Passed,High,As expected
+TC013,Test Routing,Navigate to various pages > Check routing behavior,Proper navigation between pages,Routing works correctly,Passed,High,As expected
+TC014,Test Responsiveness,Resize window on various devices > Check for responsive layout,Layout adjusts properly for different screen sizes,Layout adjusts correctly,Passed,High,As expected
