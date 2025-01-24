@@ -5,9 +5,7 @@ import ProductPageClient from "./../../components/ProductpageClient"
 interface Product {
   productName: string
   status: string
-  slug: {
-    current: string
-  }
+  slug:string
   price: number
   description: string
   category: string
