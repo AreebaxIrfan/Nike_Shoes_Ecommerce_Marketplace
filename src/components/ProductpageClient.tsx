@@ -76,7 +76,7 @@ const ProductPageClient = ({ initialProducts }: { initialProducts: Product[] }) 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
       case "newest":
-        return new Date(b.slug.current).getTime() - new Date(a.slug).getTime()
+        return new Date(b.slug).getTime() - new Date(a.slug).getTime()
       case "price-asc":
         return a.price - b.price
       case "price-desc":
