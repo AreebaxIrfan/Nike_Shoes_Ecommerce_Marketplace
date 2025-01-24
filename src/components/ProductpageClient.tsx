@@ -10,9 +10,7 @@ import Slider from "./../app/products/Slider"
 interface Product {
   productName: string
   status: string
-  slug: {
-    current: string
-  }
+     slug: string;
   price: number
   description: string
   category: string
