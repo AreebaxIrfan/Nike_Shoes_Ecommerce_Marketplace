@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { MdArrowBackIosNew, MdOutlineArrowForwardIos } from "react-icons/md";
-import { client } from '@/sanity/lib/client';
+import { client } from '@/app/lib/sanity';
 import Link from 'next/link';
 
 interface Product {
