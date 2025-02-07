@@ -11,21 +11,10 @@ interface Product {
     description: string;
     category: string;
     image: {
-        _id: string;
         url: string;
-        mimeType: string;
-        extension: string;
-        size: number;
-        metadata: object;
-        originalFilename: string;
-        _createdAt: string;
-        _updatedAt: string;
     };
 }
-
-
 const page = async () => {
-
     const query = `*[_type == "product" && category == "Women's Shoes" ] {
     productName,
     slug,
@@ -34,23 +23,12 @@ const page = async () => {
     category,
     status,
         "image": image.asset->{
-            _id,
             url,
-            mimeType,
-            extension,
-            size,
-            metadata,
-            originalFilename,
-            _createdAt,
-            _updatedAt
         }
 }`;
-
     const products: Product[] = await client.fetch(query);
-
-
     return (
-        <div className='mt-11 mb-11'>
+        <div className='mt-11 mb-11 min-h-screen'>
             <div className="w-full lg:w-4/4 lg:pl-8">
                 <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-8">
                     {products.map((product) => (

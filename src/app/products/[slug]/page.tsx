@@ -1,8 +1,7 @@
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import ProductDetails from './ProductDetails';
-import { client } from '@/sanity/lib/client';
-
+import { client } from '@/app/lib/sanity';
 
 interface Product {
   _type: 'product';
@@ -11,14 +10,14 @@ interface Product {
   productName: string;
   description?: string;
   color: string;
-  status?: string;
+ inventory?: number;
   price?: number;
+ 
   category?: string;
   image?: {
     url?: string;
   };
 }
-
 async function getProduct(slug: string): Promise<Product | null> {
   const query = `*[_type == "product" && slug == "${slug}"][0] {
     _id,
@@ -27,26 +26,16 @@ async function getProduct(slug: string): Promise<Product | null> {
     slug,
     description,
     category,
+    inventory,
     "image": image.asset->{
-      _id,
       url,
-      mimeType,
-      extension,
-      size,
-      metadata,
-      originalFilename,
-      _createdAt,
-      _updatedAt
     }
   }`;
 
   return await client.fetch(query);
 }
-
-
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const product = await getProduct(params.slug);
-
   if (!product) {
     notFound();
   }

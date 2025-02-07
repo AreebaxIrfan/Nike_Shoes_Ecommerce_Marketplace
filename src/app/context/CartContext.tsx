@@ -3,39 +3,38 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface CartItem {
+  color: string;
   id: string;
   name: string;
   price: number;
   image: string;
   size: string;
   quantity: number;
-
 }
 
 interface CartContextType {
   cart: CartItem[];
   addToCart: (product: CartItem) => void;
-  removeFromCart: (productId: string, size: string) => void;
-  updateQuantity: (productId: string, size: string, quantity: number) => void;
-
+  removeFromCart: (productId: string, size: string ) => void;
+  updateQuantity: (productId: string, size: string, quantity: number ) => void;
   getCartItemsCount: () => number;
+  clearCart: () => void; // ✅ Add this
+
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-
-// CartContext provider to manage state and interact with localStorage
 interface CartProviderProps {
   children: React.ReactNode;
 }
 
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [isClient, setIsClient] = useState(false);
 
-  // Load cart from localStorage when the component mounts
+  // Load cart from localStorage only once
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     try {
       const storedCart = localStorage.getItem('cart');
       if (storedCart) {
@@ -46,54 +45,64 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    if (isClient) {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
-  }, [cart, isClient]);
-
-
-  // Add a product to the cart
+  // Add to cart function with localStorage update
   const addToCart = (product: CartItem) => {
     setCart((prevCart) => {
       const existingProduct = prevCart.find(
         (item) => item.id === product.id && item.size === product.size
       );
+
       if (existingProduct) {
-        return prevCart; // Avoid duplicates
+        return prevCart;
       } else {
-        return [...prevCart, product];
+        const updatedCart = [...prevCart, product];
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        return updatedCart;
       }
     });
   };
 
-  // Remove a product from the cart (match both id and size)
+ 
+
+  // Remove from cart function
   const removeFromCart = (productId: string, size: string) => {
-    setCart((prevCart) =>
-      prevCart.filter((item) => !(item.id === productId && item.size === size))
-    );
+    setCart((prevCart) => {
+      const updatedCart = prevCart.filter(
+        (item) => !(item.id === productId && item.size === size)
+      );
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      return updatedCart;
+    });
   };
 
-
+  // Update quantity function
   const updateQuantity = (productId: string, size: string, quantity: number) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === productId && item.size === size ? { ...item, quantity } : item
-      )
-    );
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) =>
+        item.id === productId && item.size === size
+          ? { ...item, quantity }
+          : item
+      );
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      return updatedCart;
+    });
+  };
+
+  const getCartItemsCount = () => cart.reduce((total, item) => total + item.quantity, 0);
+
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem('cart'); // ✅ Ensure localStorage is cleared
   };
   
-  // Get the total number of cart items
-  const getCartItemsCount = () => cart.length;
-
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, getCartItemsCount }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, updateQuantity, getCartItemsCount , clearCart  }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
-
 
 export const useCart = (): CartContextType => {
   const context = useContext(CartContext);

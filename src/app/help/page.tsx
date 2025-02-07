@@ -52,7 +52,7 @@ const page = () => {
                             <p>
                                 <strong className="underline">Nike Members</strong> can store multiple debit or credit cards in their
                                 profile for faster checkout. If you are not already a Member,{" "}
-                                <Link href="/join" className="underline font-bold">
+                                <Link href="/sign-up" className="underline font-bold">
                                     join us
                                 </Link>{" "}
                                 today!

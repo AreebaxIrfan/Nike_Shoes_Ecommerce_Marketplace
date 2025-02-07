@@ -4,8 +4,9 @@ import { groq } from "next-sanity"
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  apiVersion: "2023-05-03",
+  apiVersion: '2025-01-10',
   useCdn: false,
+  token: process.env.SANITY_API_TOKEN,
 })
 
 export async function getProducts() {
@@ -18,6 +19,8 @@ export async function getProducts() {
       price,
       description,
       category,
+   
+      inventory,
       "image": image.asset->{
         url
       }
